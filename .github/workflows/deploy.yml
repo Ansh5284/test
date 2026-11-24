@@ -25,11 +25,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund --legacy-peer-deps
 
       - name: Build static site
         env:
@@ -42,7 +44,10 @@ jobs:
           VITE_DRIVE_FOLDER_DT: ${{ secrets.VITE_DRIVE_FOLDER_DT }}
           VITE_FEEDBACK_SCRIPT_URL: ${{ secrets.VITE_FEEDBACK_SCRIPT_URL }}
           VITE_DESCRIPTIVE_UPLOAD_SCRIPT_URL: ${{ secrets.VITE_DESCRIPTIVE_UPLOAD_SCRIPT_URL }}
-        run: npm run build
+        run: |
+          npm run build
+          touch dist/.nojekyll
+          cp dist/index.html dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
