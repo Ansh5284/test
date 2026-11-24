@@ -1,0 +1,8 @@
+{
+  "name": "CA Final Revision Vault",
+  "description": "Chapter-wise CA Final revision library for Financial Reporting, Advanced Audit, Advanced Financial Management, Indirect Taxes, and Direct Taxes with view-only protection, smart cross-chapter search, MCQ pop quizzes, descriptive lab, and private feedback logging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
