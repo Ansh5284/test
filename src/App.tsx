@@ -3,6 +3,7 @@ import { DescriptiveLabView } from './components/DescriptiveLabView';
 import { FeedbackView } from './components/FeedbackView';
 import { LibraryView } from './components/LibraryView';
 import { PopQuizView } from './components/PopQuizView';
+import { PreLandingView } from './components/PreLandingView';
 import { ProtectedViewerModal } from './components/ProtectedViewerModal';
 import { TopBar, type AppSection } from './components/TopBar';
 import { DRIVE_CONFIG, hasPublicDriveConfiguration } from './config/driveConfig';
@@ -18,7 +19,16 @@ import type {
   SubjectId,
 } from './types/archive';
 
+const PRELANDING_DISMISSED_KEY = 'ca_final_hub_prelanding_seen';
+
 export default function App() {
+  const [showPreLanding, setShowPreLanding] = useState<boolean>(() => {
+    try {
+      return window.sessionStorage.getItem(PRELANDING_DISMISSED_KEY) !== '1';
+    } catch {
+      return true;
+    }
+  });
   const [activeSection, setActiveSection] = useState<AppSection>('library');
   const [archives, setArchives] = useState<SubjectArchive[]>(() => buildDemoArchives());
   const [quizzes, setQuizzes] = useState<McqQuiz[]>(SEED_QUIZZES);
@@ -34,6 +44,17 @@ export default function App() {
   const [connectedUserEmail, setConnectedUserEmail] = useState<string | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleDismissPreLanding = (targetSection: AppSection = 'library') => {
+    try {
+      window.sessionStorage.setItem(PRELANDING_DISMISSED_KEY, '1');
+    } catch {
+      // Ignore storage errors in restricted browsing modes
+    }
+    setActiveSection(targetSection);
+    setShowPreLanding(false);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
 
   const syncFromDrive = useCallback(async (accessToken?: string | null) => {
     setIsSyncingDrive(true);
@@ -86,7 +107,7 @@ export default function App() {
     const onKeyDown = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-      if (e.key === '/' && !viewerState) {
+      if (e.key === '/' && !viewerState && !showPreLanding) {
         e.preventDefault();
         setActiveSection('library');
         window.setTimeout(() => {
@@ -96,7 +117,7 @@ export default function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [viewerState]);
+  }, [viewerState, showPreLanding]);
 
   const handleNavigateSection = (section: AppSection) => {
     setActiveSection(section);
@@ -146,6 +167,15 @@ export default function App() {
     () => archives.reduce((sum, a) => sum + a.totalArtifacts, 0),
     [archives],
   );
+
+  if (showPreLanding) {
+    return (
+      <PreLandingView
+        onContinue={() => handleDismissPreLanding('library')}
+        onGoToFeedback={() => handleDismissPreLanding('feedback')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A]">
@@ -220,6 +250,16 @@ export default function App() {
               className="hover:text-slate-900 transition-colors"
             >
               Feedback
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowPreLanding(true);
+                window.scrollTo({ top: 0, behavior: 'auto' });
+              }}
+              className="hover:text-slate-900 transition-colors"
+            >
+              About &amp; Disclaimer
             </button>
           </div>
         </div>
