@@ -16,7 +16,7 @@ function makeArtifact(overrides: Partial<RevisionArtifact>): RevisionArtifact {
     chapterNumber: 1,
     chapterTitle: 'Revenue from Contracts with Customers',
     standards: ['Ind AS 115'],
-    folderBreadcrumb: ['Modules'],
+    folderBreadcrumb: ['1. Modules'],
     sizeBytes: null,
     drivePreviewUrl: null,
     source: 'demo',
@@ -45,12 +45,17 @@ function buildTestArchives(): SubjectArchive[] {
   });
 
   const ch1: ChapterGroup = {
-    chapterKey: 'ch-1',
-    chapterNumber: 1,
-    title: 'Revenue from Contracts with Customers',
+    chapterKey: 'std-ind-as-115',
+    chapterNumber: null,
+    title: 'Ind AS 115 — Revenue from Contracts with Customers',
     subjectId: 'fr',
+    sectionKind: 'chapter',
+    partLabel: null,
     standards: ['Ind AS 115'],
     modules: [mod],
+    slides: [slide],
+    infographics: [chart],
+    practiceQa: [],
     revisionVisuals: [slide, chart],
     otherFiles: [],
     allArtifacts: [mod, slide, chart],
@@ -96,8 +101,15 @@ test('searching by standard name (Ind AS 115) matches chapter and surfaces all c
   );
 });
 
-test('searching by chapter name works and respects subject filter', () => {
+test('searching respects subject filter and granular artifact filter modes', () => {
   const archives = buildTestArchives();
   assert.equal(searchArchives(archives, 'Revenue from Contracts').length, 1);
-  assert.equal(searchArchives(archives, 'Revenue from Contracts', { subjectFilter: 'audit' }).length, 0);
+  assert.equal(
+    searchArchives(archives, 'Revenue from Contracts', { subjectFilter: 'audit' }).length,
+    0,
+  );
+  const slidesOnly = searchArchives(archives, 'Ind AS 115', { artifactFilter: 'slides' });
+  assert.equal(slidesOnly.length, 1);
+  assert.equal(slidesOnly[0].matchedArtifacts.length, 1);
+  assert.equal(slidesOnly[0].matchedArtifacts[0].category, 'slides');
 });

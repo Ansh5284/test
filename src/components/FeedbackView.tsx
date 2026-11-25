@@ -61,15 +61,15 @@ export function FeedbackView() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
-      <header className="space-y-3 border-b border-[#E5E2DA] pb-6">
-        <p className="text-xs font-mono text-[#57534E]">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
+      <header className="space-y-2 border-b border-slate-200 pb-6">
+        <p className="text-xs font-mono font-medium text-[#2563EB]">
           Private Curator Log · Write-Only Submission to Restricted Google Sheet
         </p>
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#171614]">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
           Share Your Views &amp; Suggestions
         </h1>
-        <p className="text-[15px] leading-relaxed text-[#57534E] max-w-2xl">
+        <p className="text-sm leading-relaxed text-slate-600 max-w-2xl">
           Request missing Ind AS or SA revision charts, report any correction, or suggest features
           for upcoming MCQ quizzes and descriptive tests. Responses are appended directly to the
           owner&apos;s private Google Sheet, which is never shared publicly.
@@ -81,13 +81,13 @@ export function FeedbackView() {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="lg:col-span-8 bg-white border border-[#E5E2DA] rounded-xl p-6 sm:p-8 space-y-5"
+          className="lg:col-span-8 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label
                 htmlFor="fb-name"
-                className="block text-xs font-medium text-[#57534E] mb-1.5"
+                className="block text-xs font-semibold text-slate-700 mb-1.5"
               >
                 Your Name (optional)
               </label>
@@ -97,14 +97,14 @@ export function FeedbackView() {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Leave blank to stay anonymous"
-                className="w-full h-10 px-3.5 bg-[#FAF9F6] border border-[#D6D3CB] rounded-md text-sm text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                className="w-full h-10 px-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
               />
             </div>
 
             <div>
               <label
                 htmlFor="fb-attempt"
-                className="block text-xs font-medium text-[#57534E] mb-1.5"
+                className="block text-xs font-semibold text-slate-700 mb-1.5"
               >
                 Target CA Final Attempt
               </label>
@@ -112,7 +112,7 @@ export function FeedbackView() {
                 id="fb-attempt"
                 value={form.attempt}
                 onChange={(e) => setForm({ ...form, attempt: e.target.value })}
-                className="w-full h-10 px-3 bg-[#FAF9F6] border border-[#D6D3CB] rounded-md text-sm text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
               >
                 {ATTEMPT_OPTIONS.map((opt) => (
                   <option key={opt} value={opt}>
@@ -127,7 +127,7 @@ export function FeedbackView() {
             <div>
               <label
                 htmlFor="fb-subject"
-                className="block text-xs font-medium text-[#57534E] mb-1.5"
+                className="block text-xs font-semibold text-slate-700 mb-1.5"
               >
                 Subject / Section
               </label>
@@ -135,7 +135,7 @@ export function FeedbackView() {
                 id="fb-subject"
                 value={form.subject}
                 onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                className="w-full h-10 px-3 bg-[#FAF9F6] border border-[#D6D3CB] rounded-md text-sm text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
               >
                 <option value="General Website">General Website</option>
                 {SUBJECTS.map((s) => (
@@ -145,7 +145,7 @@ export function FeedbackView() {
                 ))}
               </select>
               {errors.subject && (
-                <p role="alert" className="text-xs text-[#9A3412] mt-1">
+                <p role="alert" className="text-xs text-red-600 mt-1">
                   {errors.subject}
                 </p>
               )}
@@ -154,7 +154,7 @@ export function FeedbackView() {
             <div>
               <label
                 htmlFor="fb-category"
-                className="block text-xs font-medium text-[#57534E] mb-1.5"
+                className="block text-xs font-semibold text-slate-700 mb-1.5"
               >
                 Feedback Category
               </label>
@@ -162,7 +162,7 @@ export function FeedbackView() {
                 id="fb-category"
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="w-full h-10 px-3 bg-[#FAF9F6] border border-[#D6D3CB] rounded-md text-sm text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -175,8 +175,8 @@ export function FeedbackView() {
 
           {/* Interactive Rating Selector */}
           <fieldset className="space-y-2">
-            <legend className="text-xs font-medium text-[#57534E]">
-              How helpful is the revision archive? (1 = Needs work, 5 = Very helpful)
+            <legend className="text-xs font-semibold text-slate-700">
+              How helpful is the revision hub? (1 = Needs work, 5 = Very helpful)
             </legend>
             <div className="flex items-center gap-2">
               {[1, 2, 3, 4, 5].map((value) => {
@@ -187,10 +187,10 @@ export function FeedbackView() {
                     type="button"
                     aria-pressed={isSelected}
                     onClick={() => setForm({ ...form, rating: value })}
-                    className={`w-11 h-10 rounded-md border font-mono text-sm font-medium tabular-nums transition-colors ${
+                    className={`w-11 h-10 rounded-xl border font-mono text-sm font-semibold tabular-nums transition-colors ${
                       isSelected
-                        ? 'bg-[#1D3B73] text-white border-[#1D3B73]'
-                        : 'bg-[#FAF9F6] text-[#171614] border-[#D6D3CB] hover:bg-[#F1EFE9]'
+                        ? 'bg-[#2563EB] text-white border-[#2563EB]'
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
                     {value}
@@ -199,7 +199,7 @@ export function FeedbackView() {
               })}
             </div>
             {errors.rating && (
-              <p role="alert" className="text-xs text-[#9A3412]">
+              <p role="alert" className="text-xs text-red-600">
                 {errors.rating}
               </p>
             )}
@@ -208,7 +208,7 @@ export function FeedbackView() {
           <div>
             <label
               htmlFor="fb-message"
-              className="block text-xs font-medium text-[#57534E] mb-1.5"
+              className="block text-xs font-semibold text-slate-700 mb-1.5"
             >
               Your Views or Request (required)
             </label>
@@ -222,30 +222,33 @@ export function FeedbackView() {
                 if (errors.message) setErrors({ ...errors, message: undefined });
               }}
               placeholder="Tell us which chapters, Ind AS / SA summaries, or features would help your CA Final revision most..."
-              className="w-full p-3.5 bg-[#FAF9F6] border border-[#D6D3CB] rounded-lg text-sm leading-relaxed text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm leading-relaxed text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
             />
             {errors.message && (
-              <p role="alert" className="text-xs font-medium text-[#9A3412] mt-1.5">
+              <p role="alert" className="text-xs font-medium text-red-600 mt-1.5">
                 {errors.message}
               </p>
             )}
           </div>
 
           {submitError && (
-            <p role="alert" className="text-xs font-medium text-[#9A3412]">
+            <div
+              role="alert"
+              className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs font-medium text-red-800 leading-relaxed"
+            >
               {submitError}
-            </p>
+            </div>
           )}
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-            <p className="text-xs text-[#78716C] inline-flex items-center gap-1.5">
+            <p className="text-xs text-slate-500 inline-flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               <span>Submitted responses are private to the curator only.</span>
             </p>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-medium text-white bg-[#1D3B73] rounded-md hover:bg-[#152C57] transition-colors disabled:opacity-60 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#2563EB] rounded-lg hover:bg-[#1D4ED8] transition-colors disabled:opacity-60 whitespace-nowrap"
             >
               <Send className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{isSubmitting ? 'Sending...' : 'Submit Feedback'}</span>
@@ -255,43 +258,41 @@ export function FeedbackView() {
 
         {/* Right Side: Privacy Guarantee & Session Receipts */}
         <aside className="lg:col-span-4 space-y-5">
-          <div className="bg-white border border-[#E5E2DA] rounded-xl p-5 space-y-3">
-            <h2 className="font-serif text-lg font-semibold text-[#171614]">
-              Private Sheet Architecture
-            </h2>
-            <p className="text-xs leading-relaxed text-[#57534E]">
+          <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-3">
+            <h2 className="text-base font-bold text-slate-900">Private Sheet Architecture</h2>
+            <p className="text-xs leading-relaxed text-slate-600">
               Student views are written via a free Google Apps Script Web App deployed directly on
               your private Google Sheet. Your Sheet stays set to{' '}
-              <strong className="text-[#171614]">Restricted (Only you)</strong>—no visitor can read
+              <strong className="text-slate-900">Restricted (Only you)</strong>—no visitor can read
               other responses or discover the spreadsheet link.
             </p>
-            <p className="text-xs leading-relaxed text-[#57534E]">
-              Script source included at{' '}
-              <span className="font-mono text-[#171614]">docs/google-apps-script-feedback.gs</span>.
+            <p className="text-xs leading-relaxed text-slate-600">
+              Ensure Apps Script is deployed as <strong className="text-slate-900">Web app</strong>{' '}
+              with <strong className="text-slate-900">Execute as: Me</strong> and{' '}
+              <strong className="text-slate-900">Who has access: Anyone</strong>. Script source is
+              at <span className="font-mono text-slate-800">docs/google-apps-script-feedback.gs</span>.
             </p>
           </div>
 
           {recentSubmissions.length > 0 && (
             <div
               aria-live="polite"
-              className="bg-white border border-[#BBF7D0] rounded-xl p-5 space-y-3"
+              className="bg-white border border-emerald-200 rounded-2xl p-5 space-y-3"
             >
-              <div className="flex items-center gap-2 text-xs font-semibold text-[#166534]">
+              <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700">
                 <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
-                <span>
-                  Feedback Logged ({recentSubmissions.length})
-                </span>
+                <span>Feedback Logged ({recentSubmissions.length})</span>
               </div>
-              <div className="space-y-3 divide-y divide-[#EFECE4]">
+              <div className="space-y-3 divide-y divide-slate-100">
                 {recentSubmissions.map((item) => (
                   <div key={item.id} className="pt-2.5 first:pt-0 space-y-1 text-xs">
-                    <p className="font-medium text-[#171614]">
+                    <p className="font-semibold text-slate-900">
                       {item.subject} · {item.rating}/5 · {item.category}
                     </p>
-                    <p className="text-[#57534E] line-clamp-3">{item.message}</p>
-                    <p className="text-[11px] font-mono text-[#78716C]">
+                    <p className="text-slate-600 line-clamp-3">{item.message}</p>
+                    <p className="text-[11px] font-mono text-slate-400">
                       {item.deliveryMode === 'apps_script_sheet'
-                        ? 'Appended to private Google Sheet'
+                        ? 'Verified & appended to private Google Sheet'
                         : 'Confirmed in preview mode (link Apps Script URL to append live)'}
                     </p>
                   </div>

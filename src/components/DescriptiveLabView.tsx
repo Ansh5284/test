@@ -86,29 +86,29 @@ export function DescriptiveLabView() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
       {/* Header */}
-      <header className="space-y-3 border-b border-[#E5E2DA] pb-6">
-        <p className="text-xs font-mono text-[#57534E]">
-          Future Expansion Architecture · Drive Upload &amp; Gemini Descriptive Evaluation
+      <header className="space-y-2 border-b border-slate-200 pb-6">
+        <p className="text-xs font-mono font-medium text-[#2563EB]">
+          Drive Upload &amp; Gemini Descriptive Evaluation Pipeline
         </p>
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#171614]">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
           Descriptive Answer Lab
         </h1>
-        <p className="text-[15px] leading-relaxed text-[#57534E] max-w-3xl">
+        <p className="text-sm leading-relaxed text-slate-600 max-w-3xl">
           Practice exam-style CA Final case studies by typing your response or uploading a scanned
-          answer PDF. Submissions save directly to your private Google Drive folder (via Apps
-          Script) so scheduled Gemini evaluation tasks can score each criterion and return detailed
-          marking feedback here.
+          answer PDF. Submissions save to your private Google Drive folder (via Apps Script) so
+          evaluation tasks can score each criterion and return detailed marking feedback here.
         </p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left: Case-Study Selector & Answer Composer */}
         <div className="lg:col-span-7 space-y-6">
-          {/* Question Selector */}
           <div className="space-y-2.5">
-            <p className="text-xs font-semibold text-[#57534E]">Select Case-Study Question</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Select Case-Study Question
+            </p>
             <div className="grid grid-cols-1 gap-2.5">
               {SEED_DESCRIPTIVE_QUESTIONS.map((q) => {
                 const isSelected = q.id === activeQuestion.id;
@@ -120,46 +120,42 @@ export function DescriptiveLabView() {
                       setSelectedQuestionId(q.id);
                       setFormError(null);
                     }}
-                    className={`text-left p-4 rounded-xl border transition-colors ${
+                    className={`text-left p-4 rounded-2xl border transition-all ${
                       isSelected
-                        ? 'bg-[#1D3B73] text-white border-[#1D3B73]'
-                        : 'bg-white text-[#171614] border-[#E5E2DA] hover:border-[#BDB8AC]'
+                        ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
+                        : 'bg-white text-slate-900 border-slate-200 hover:border-blue-300'
                     }`}
                   >
                     <p
                       className={`text-xs font-mono tabular-nums ${
-                        isSelected ? 'text-white/80' : 'text-[#57534E]'
+                        isSelected ? 'text-blue-100' : 'text-slate-500'
                       }`}
                     >
                       {q.subjectName} · {q.standardRef} · {q.marks} Marks · {q.recommendedMinutes}{' '}
                       min
                     </p>
-                    <p className="font-serif text-base font-semibold mt-1">{q.title}</p>
+                    <p className="text-sm sm:text-base font-bold mt-1">{q.title}</p>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Active Prompt Card */}
-          <article className="bg-white border border-[#E5E2DA] rounded-xl p-6 space-y-4">
+          <article className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
             <div className="space-y-1">
-              <p className="text-xs font-mono text-[#1D3B73] tabular-nums">
+              <p className="text-xs font-mono font-medium text-[#2563EB] tabular-nums">
                 {activeQuestion.chapter} · {activeQuestion.marks} Marks
               </p>
-              <h2 className="font-serif text-xl font-semibold text-[#171614]">
-                {activeQuestion.title}
-              </h2>
+              <h2 className="text-lg font-bold text-slate-900">{activeQuestion.title}</h2>
             </div>
-            <p className="text-sm leading-relaxed text-[#292524]">{activeQuestion.prompt}</p>
+            <p className="text-sm leading-relaxed text-slate-700">{activeQuestion.prompt}</p>
 
-            {/* Submission Form */}
-            <form onSubmit={handleSubmit} className="pt-4 border-t border-[#EFECE4] space-y-4">
+            <form onSubmit={handleSubmit} className="pt-4 border-t border-slate-200 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div
                   role="group"
                   aria-label="Choose response format"
-                  className="inline-flex items-center p-1 bg-[#F1EFE9] rounded-md border border-[#E5E2DA] self-start"
+                  className="inline-flex items-center p-1 bg-slate-100 rounded-xl border border-slate-200 self-start"
                 >
                   <button
                     type="button"
@@ -167,10 +163,10 @@ export function DescriptiveLabView() {
                       setAnswerMode('typed');
                       setFormError(null);
                     }}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap ${
                       answerMode === 'typed'
-                        ? 'bg-white text-[#171614] shadow-xs'
-                        : 'text-[#57534E] hover:text-[#171614]'
+                        ? 'bg-white text-slate-900 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     <PenLine className="w-3.5 h-3.5" aria-hidden="true" />
@@ -182,10 +178,10 @@ export function DescriptiveLabView() {
                       setAnswerMode('pdf');
                       setFormError(null);
                     }}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap ${
                       answerMode === 'pdf'
-                        ? 'bg-white text-[#171614] shadow-xs'
-                        : 'text-[#57534E] hover:text-[#171614]'
+                        ? 'bg-white text-slate-900 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     <FileUp className="w-3.5 h-3.5" aria-hidden="true" />
@@ -194,7 +190,7 @@ export function DescriptiveLabView() {
                 </div>
 
                 {answerMode === 'typed' && (
-                  <span className="text-xs font-mono text-[#78716C] tabular-nums">
+                  <span className="text-xs font-mono text-slate-400 tabular-nums">
                     {wordCount} words
                   </span>
                 )}
@@ -203,7 +199,7 @@ export function DescriptiveLabView() {
               <div>
                 <label
                   htmlFor="desc-student-name"
-                  className="block text-xs font-medium text-[#57534E] mb-1.5"
+                  className="block text-xs font-semibold text-slate-700 mb-1.5"
                 >
                   Candidate Name or Roll Reference (optional)
                 </label>
@@ -213,7 +209,7 @@ export function DescriptiveLabView() {
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
                   placeholder="e.g., Ansh Jain — May 2027"
-                  className="w-full h-10 px-3.5 bg-[#FAF9F6] border border-[#D6D3CB] rounded-md text-sm text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                  className="w-full h-10 px-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
                 />
               </div>
 
@@ -221,7 +217,7 @@ export function DescriptiveLabView() {
                 <div>
                   <label
                     htmlFor="desc-typed-answer"
-                    className="block text-xs font-medium text-[#57534E] mb-1.5"
+                    className="block text-xs font-semibold text-slate-700 mb-1.5"
                   >
                     Your Structured Descriptive Answer
                   </label>
@@ -231,14 +227,14 @@ export function DescriptiveLabView() {
                     value={typedAnswer}
                     onChange={(e) => setTypedAnswer(e.target.value)}
                     placeholder="Cite the applicable Ind AS / SA paragraph, explain the principle, show working notes, and state your conclusion..."
-                    className="w-full p-3.5 bg-[#FAF9F6] border border-[#D6D3CB] rounded-lg text-sm leading-relaxed text-[#171614] focus:outline-none focus:border-[#1D3B73] focus:bg-white"
+                    className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm leading-relaxed text-slate-900 focus:outline-none focus:border-[#2563EB] focus:bg-white"
                   />
                 </div>
               ) : (
                 <div className="space-y-2">
                   <label
                     htmlFor="desc-pdf-upload"
-                    className="block text-xs font-medium text-[#57534E]"
+                    className="block text-xs font-semibold text-slate-700"
                   >
                     Upload Scanned Answer Sheet (PDF only, max 15 MB)
                   </label>
@@ -247,10 +243,10 @@ export function DescriptiveLabView() {
                     type="file"
                     accept="application/pdf,.pdf"
                     onChange={handleFileChange}
-                    className="block w-full text-xs text-[#57534E] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-[#D6D3CB] file:text-xs file:font-medium file:bg-white file:text-[#171614] hover:file:bg-[#F1EFE9]"
+                    className="block w-full text-xs text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-slate-200 file:text-xs file:font-semibold file:bg-white file:text-slate-700 hover:file:bg-slate-50"
                   />
                   {pdfFile && (
-                    <p className="text-xs font-mono text-[#166534]">
+                    <p className="text-xs font-mono text-emerald-700">
                       Selected PDF: {pdfFile.name} ({Math.max(1, Math.round(pdfFile.size / 1024))}{' '}
                       KB)
                     </p>
@@ -259,7 +255,10 @@ export function DescriptiveLabView() {
               )}
 
               {formError && (
-                <p role="alert" className="text-xs font-medium text-[#9A3412]">
+                <p
+                  role="alert"
+                  className="text-xs font-medium text-red-700 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5"
+                >
                   {formError}
                 </p>
               )}
@@ -268,7 +267,7 @@ export function DescriptiveLabView() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium text-white bg-[#1D3B73] rounded-md hover:bg-[#152C57] transition-colors disabled:opacity-60 whitespace-nowrap"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#2563EB] rounded-lg hover:bg-[#1D4ED8] transition-colors disabled:opacity-60 whitespace-nowrap"
                 >
                   <Send className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>{isSubmitting ? 'Submitting...' : 'Submit Answer for Evaluation'}</span>
@@ -278,11 +277,11 @@ export function DescriptiveLabView() {
           </article>
         </div>
 
-        {/* Right: Submitted Scripts & Evaluated Feedback Report Preview */}
+        {/* Right: Submitted Scripts & Evaluated Feedback Report */}
         <aside className="lg:col-span-5 space-y-5">
-          <div className="bg-white border border-[#E5E2DA] rounded-xl p-5 space-y-3">
-            <p className="text-xs font-semibold text-[#171614] tabular-nums">
-              Submitted Responses &amp; Evaluation Reports ({submissions.length})
+          <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400 tabular-nums">
+              Submitted Responses ({submissions.length})
             </p>
             <div className="space-y-2">
               {submissions.map((sub) => {
@@ -291,24 +290,24 @@ export function DescriptiveLabView() {
                   sub.status === 'evaluated_sample'
                     ? `Evaluated · ${sub.evaluation?.awardedMarks}/${sub.evaluation?.totalMarks}`
                     : sub.status === 'saved_to_drive'
-                      ? 'Saved to Drive · Pending Gemini Review'
-                      : 'Queued for Gemini Review';
+                      ? 'Saved to Drive · Pending Review'
+                      : 'Queued for Review';
 
                 return (
                   <button
                     key={sub.id}
                     type="button"
                     onClick={() => setActiveSubmissionId(sub.id)}
-                    className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                    className={`w-full text-left p-3 rounded-xl border transition-colors ${
                       isSelected
-                        ? 'bg-[#FAF9F6] border-[#1D3B73]'
-                        : 'bg-white border-[#EFECE4] hover:border-[#D6D3CB]'
+                        ? 'bg-[#EFF6FF] border-[#2563EB]'
+                        : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
-                    <p className="text-xs font-medium text-[#171614] truncate">
+                    <p className="text-xs font-semibold text-slate-900 truncate">
                       {sub.questionTitle}
                     </p>
-                    <p className="text-[11px] font-mono text-[#57534E] mt-1 tabular-nums">
+                    <p className="text-[11px] font-mono text-slate-500 mt-1 tabular-nums">
                       {sub.mode === 'pdf' ? `PDF (${sub.pdfFileName})` : 'Typed Answer'} ·{' '}
                       {statusText}
                     </p>
@@ -319,28 +318,30 @@ export function DescriptiveLabView() {
           </div>
 
           {activeSubmission && (
-            <div className="bg-white border border-[#E5E2DA] rounded-xl p-5 sm:p-6 space-y-4">
-              <div className="border-b border-[#EFECE4] pb-3 space-y-1">
-                <p className="text-xs font-mono text-[#1D3B73]">{activeSubmission.subjectName}</p>
-                <h3 className="font-serif text-lg font-semibold text-[#171614]">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-4">
+              <div className="border-b border-slate-200 pb-3 space-y-1">
+                <p className="text-xs font-mono font-medium text-[#2563EB]">
+                  {activeSubmission.subjectName}
+                </p>
+                <h3 className="text-base font-bold text-slate-900">
                   {activeSubmission.questionTitle}
                 </h3>
-                <p className="text-xs text-[#57534E]">{activeSubmission.studentName}</p>
+                <p className="text-xs text-slate-500">{activeSubmission.studentName}</p>
               </div>
 
               {activeSubmission.evaluation ? (
                 <div className="space-y-4">
-                  <div className="flex items-baseline justify-between gap-2 bg-[#F9F8F4] border border-[#E5E2DA] rounded-lg p-3.5">
-                    <span className="text-xs font-semibold text-[#171614]">
+                  <div className="flex items-baseline justify-between gap-2 bg-[#EFF6FF] border border-blue-200 rounded-xl p-3.5">
+                    <span className="text-xs font-semibold text-slate-900">
                       Rubric Marks Awarded
                     </span>
-                    <span className="font-mono text-lg font-semibold text-[#1D3B73] tabular-nums">
+                    <span className="font-mono text-lg font-bold text-[#2563EB] tabular-nums">
                       {activeSubmission.evaluation.awardedMarks} /{' '}
                       {activeSubmission.evaluation.totalMarks}
                     </span>
                   </div>
 
-                  <p className="text-xs leading-relaxed text-[#292524]">
+                  <p className="text-xs leading-relaxed text-slate-700">
                     {activeSubmission.evaluation.overallSummary}
                   </p>
 
@@ -348,11 +349,11 @@ export function DescriptiveLabView() {
                     {activeSubmission.evaluation.rubric.map((item) => (
                       <div
                         key={item.criterion}
-                        className="p-3 rounded-lg border border-[#EFECE4] bg-[#FCFBFA] space-y-1"
+                        className="p-3 rounded-xl border border-slate-200 bg-slate-50 space-y-1"
                       >
                         <div className="flex items-baseline justify-between gap-2 text-xs">
-                          <span className="font-medium text-[#171614]">{item.criterion}</span>
-                          <span className="font-mono tabular-nums shrink-0 text-[#57534E]">
+                          <span className="font-semibold text-slate-900">{item.criterion}</span>
+                          <span className="font-mono tabular-nums shrink-0 text-slate-500">
                             {item.awardedMarks}/{item.maxMarks} ·{' '}
                             {item.status === 'met'
                               ? 'Met'
@@ -361,26 +362,26 @@ export function DescriptiveLabView() {
                                 : 'Missed'}
                           </span>
                         </div>
-                        <p className="text-xs text-[#57534E] leading-relaxed">{item.comment}</p>
+                        <p className="text-xs text-slate-600 leading-relaxed">{item.comment}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="flex items-start gap-2.5 p-3.5 rounded-lg bg-[#ECFDF5] border border-[#BBF7D0] text-xs text-[#14532D]">
+                  <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
                     <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
                     <div>
                       <p className="font-semibold">Answer Recorded Successfully</p>
                       <p className="mt-0.5">
                         {activeSubmission.status === 'saved_to_drive'
-                          ? 'Saved to your private Google Drive submissions folder for Gemini evaluation.'
-                          : 'Recorded in your session queue. Connect the free Google Apps Script endpoint to persist uploads directly into your private Google Drive folder.'}
+                          ? 'Saved to your private Google Drive submissions folder for evaluation.'
+                          : 'Recorded in your session queue. Link your Google Apps Script Web App URL to persist uploads directly into your private Drive folder.'}
                       </p>
                     </div>
                   </div>
                   {activeSubmission.typedAnswer && (
-                    <div className="p-3.5 rounded-lg bg-[#F9F8F4] border border-[#E5E2DA] text-xs leading-relaxed text-[#292524] whitespace-pre-wrap">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs leading-relaxed text-slate-700 whitespace-pre-wrap">
                       {activeSubmission.typedAnswer}
                     </div>
                   )}

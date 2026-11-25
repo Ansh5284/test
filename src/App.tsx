@@ -81,7 +81,7 @@ export default function App() {
     return () => unsubscribe();
   }, [syncFromDrive]);
 
-  // Global "/" shortcut to focus the smart search bar
+  // Global "/" shortcut to focus the header search bar
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
@@ -91,8 +91,7 @@ export default function App() {
         setActiveSection('library');
         window.setTimeout(() => {
           searchInputRef.current?.focus();
-          searchInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 50);
+        }, 40);
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -102,14 +101,6 @@ export default function App() {
   const handleNavigateSection = (section: AppSection) => {
     setActiveSection(section);
     window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
-  const handleFocusSearch = () => {
-    setActiveSection('library');
-    window.setTimeout(() => {
-      searchInputRef.current?.focus();
-      searchInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 60);
   };
 
   const handleSignInGoogle = async () => {
@@ -157,11 +148,13 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9F8F4] text-[#171614]">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A]">
       <TopBar
         activeSection={activeSection}
         onNavigate={handleNavigateSection}
-        onFocusSearch={handleFocusSearch}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+        searchInputRef={searchInputRef}
       />
 
       <main className="flex-1">
@@ -172,7 +165,6 @@ export default function App() {
             onSelectSubject={setSelectedSubjectId}
             searchQuery={searchQuery}
             onSearchQueryChange={setSearchQuery}
-            searchInputRef={searchInputRef}
             onOpenArtifact={(artifact, chapter) => setViewerState({ artifact, chapter })}
             isSyncingDrive={isSyncingDrive}
             driveError={driveError}
@@ -190,44 +182,42 @@ export default function App() {
         {activeSection === 'feedback' && <FeedbackView />}
       </main>
 
-      <footer className="border-t border-[#E5E2DA] bg-[#F4F2EC] mt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[#57534E]">
+      <footer className="border-t border-slate-200 bg-white mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-500">
           <div className="space-y-1">
-            <p className="font-serif text-sm font-semibold text-[#171614]">
-              CA Final Revision Vault
-            </p>
+            <p className="text-sm font-bold text-slate-900">CA Final Revision Hub</p>
             <p>
-              Hosted for GitHub Pages (<span className="font-mono">{DRIVE_CONFIG.githubRepoName}</span>) ·{' '}
-              <span className="font-mono tabular-nums">{activeTotalFiles}</span> view-only study
-              artifacts indexed
+              GitHub Pages (<span className="font-mono">{DRIVE_CONFIG.githubRepoName}</span>) ·{' '}
+              <span className="font-mono tabular-nums">{activeTotalFiles}</span> view-only materials
+              indexed
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <button
               type="button"
               onClick={() => handleNavigateSection('library')}
-              className="hover:text-[#171614] transition-colors"
+              className="hover:text-slate-900 transition-colors"
             >
-              Subjects
+              Library
             </button>
             <button
               type="button"
               onClick={() => handleNavigateSection('quiz')}
-              className="hover:text-[#171614] transition-colors"
+              className="hover:text-slate-900 transition-colors"
             >
               Pop Quiz
             </button>
             <button
               type="button"
               onClick={() => handleNavigateSection('descriptive')}
-              className="hover:text-[#171614] transition-colors"
+              className="hover:text-slate-900 transition-colors"
             >
               Descriptive Lab
             </button>
             <button
               type="button"
               onClick={() => handleNavigateSection('feedback')}
-              className="hover:text-[#171614] transition-colors"
+              className="hover:text-slate-900 transition-colors"
             >
               Feedback
             </button>

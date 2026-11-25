@@ -5,7 +5,12 @@ import type {
   SubjectId,
 } from '../types/archive';
 
-export type ArtifactFilterMode = 'all' | 'module' | 'visuals';
+export type ArtifactFilterMode =
+  | 'all'
+  | 'slides'
+  | 'infographic'
+  | 'module'
+  | 'practice_qa';
 
 export interface SearchOptions {
   subjectFilter?: SubjectId | 'all';
@@ -16,10 +21,18 @@ function normalizeQuery(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function matchesArtifactFilter(artifact: RevisionArtifact, filter: ArtifactFilterMode): boolean {
+export function matchesArtifactFilter(
+  artifact: RevisionArtifact,
+  filter: ArtifactFilterMode,
+): boolean {
   if (filter === 'all') return true;
-  if (filter === 'module') return artifact.category === 'module';
-  return artifact.category === 'slides' || artifact.category === 'infographic';
+  if (filter === 'slides') return artifact.category === 'slides';
+  if (filter === 'infographic') return artifact.category === 'infographic';
+  if (filter === 'module') {
+    return artifact.category === 'module' || artifact.category === 'suggested_answers';
+  }
+  if (filter === 'practice_qa') return artifact.category === 'practice_qa';
+  return true;
 }
 
 function tokensMatch(haystack: string, tokens: string[]): boolean {
@@ -29,10 +42,10 @@ function tokensMatch(haystack: string, tokens: string[]): boolean {
 
 /**
  * Smart CA Final Revision Search Engine:
- * - Matches by file name, chapter name/number, standard/section code (Ind AS, SA, SQC, Sec), or subject.
+ * - Matches by file name, chapter name/number, standard/section code (Ind AS, SA, SQC, Sec), sub-topic, or subject.
  * - Whenever ANY file in a chapter matches by name (or chapter/standard matches),
  *   ALL sibling artifacts in that same chapter are surfaced alongside it as `relatedChapterArtifacts`
- *   so students immediately see companion modules, slides, and infographics.
+ *   so students immediately see companion modules, slides, infographics, and practice Q&A.
  */
 export function searchArchives(
   archives: SubjectArchive[],
@@ -66,7 +79,10 @@ export function searchArchives(
         : chapter.title;
       const standardsJoined = chapter.standards.join(' ');
 
-      const chapterMatches = tokensMatch(`${chapterLabel} ${subjectHaystack}`, tokens);
+      const chapterMatches = tokensMatch(
+        `${chapterLabel} ${chapter.partLabel || ''} ${subjectHaystack}`,
+        tokens,
+      );
       const standardMatches =
         standardsJoined.length > 0 && tokensMatch(`${standardsJoined} ${subjectHaystack}`, tokens);
 
@@ -75,7 +91,7 @@ export function searchArchives(
       let score = 0;
 
       for (const artifact of visibleArtifacts) {
-        const fileHaystack = `${artifact.title} ${artifact.rawFileName} ${artifact.standards.join(' ')} ${artifact.folderBreadcrumb.join(' ')}`;
+        const fileHaystack = `${artifact.title} ${artifact.rawFileName} ${artifact.standards.join(' ')} ${artifact.subTopic || ''} ${artifact.folderBreadcrumb.join(' ')}`;
         const exactFileTitleMatch = normalizeQuery(artifact.title).includes(cleaned);
         const tokenFileMatch = tokensMatch(`${fileHaystack} ${subjectHaystack}`, tokens);
 
@@ -100,7 +116,6 @@ export function searchArchives(
         continue;
       }
 
-      // If matched by chapter or standard without a single file-name hit, promote all visible artifacts in the chapter
       const primaryMatches = matchedArtifacts.length > 0 ? matchedArtifacts : visibleArtifacts;
       const matchedIds = new Set(primaryMatches.map((a) => a.id));
 

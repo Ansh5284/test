@@ -1,6 +1,19 @@
 export type SubjectId = 'fr' | 'audit' | 'afm' | 'idt' | 'dt';
 
-export type ArtifactCategory = 'module' | 'slides' | 'infographic' | 'quiz_json' | 'other';
+export type ArtifactCategory =
+  | 'module'
+  | 'slides'
+  | 'infographic'
+  | 'practice_qa'
+  | 'suggested_answers'
+  | 'quiz_json'
+  | 'other';
+
+export type ChapterSectionKind =
+  | 'chapter'
+  | 'suggested_answers'
+  | 'practice_questions'
+  | 'general';
 
 export type SubjectReadiness = 'complete' | 'in_progress' | 'upcoming';
 
@@ -42,6 +55,7 @@ export interface RevisionArtifact {
   chapterTitle: string;
   standards: string[];
   folderBreadcrumb: string[];
+  subTopic?: string | null;
   sizeBytes: number | null;
   modifiedTime?: string;
   /** View-only Google Drive preview URL (streams unlimited file sizes without downloading) */
@@ -62,9 +76,14 @@ export interface ChapterGroup {
   chapterNumber: number | null;
   title: string;
   subjectId: SubjectId;
+  sectionKind: ChapterSectionKind;
+  partLabel?: string | null;
   standards: string[];
   modules: RevisionArtifact[];
-  revisionVisuals: RevisionArtifact[]; // Slides & Infographics
+  slides: RevisionArtifact[];
+  infographics: RevisionArtifact[];
+  practiceQa: RevisionArtifact[];
+  revisionVisuals: RevisionArtifact[]; // Combined slides & infographics
   otherFiles: RevisionArtifact[];
   allArtifacts: RevisionArtifact[];
 }

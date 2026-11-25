@@ -2,12 +2,12 @@ import type { SubjectId, SubjectMeta } from '../types/archive';
 
 /**
  * ============================================================================
- * CA FINAL REVISION VAULT — CENTRAL CONFIGURATION
+ * CA FINAL REVISION HUB — CENTRAL CONFIGURATION
  * ============================================================================
- * Put your public Google Drive API key and your 5 "Anyone with the link can
- * view" Google Drive Folder IDs below, OR set them as GitHub Actions Secrets
- * (VITE_GOOGLE_DRIVE_API_KEY, VITE_DRIVE_FOLDER_FR, etc.) for automatic
- * GitHub Pages builds in the `cafinalrevisionpage` repository.
+ * Configure your Google Drive API key via GitHub Actions Secrets
+ * (`VITE_GOOGLE_DRIVE_API_KEY`) or `.env` for live public Drive syncing.
+ * Subject Folder IDs default to your public read-only Drive folders and can
+ * also be overridden at build time via `VITE_DRIVE_FOLDER_*` env vars.
  *
  * Security tip for GitHub Pages:
  * Restrict your Google Drive API key in Google Cloud Console -> Credentials ->
@@ -16,22 +16,29 @@ import type { SubjectId, SubjectMeta } from '../types/archive';
  * ============================================================================
  */
 
-const env = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env : ({} as Record<string, string>);
+const env =
+  typeof import.meta !== 'undefined' && import.meta.env
+    ? import.meta.env
+    : ({} as Record<string, string>);
 
 export const DRIVE_CONFIG = {
-  /** Paste your Google Drive API Key here or set VITE_GOOGLE_DRIVE_API_KEY in .env / GitHub Secrets */
+  /** Set VITE_GOOGLE_DRIVE_API_KEY in .env or GitHub Actions Secrets */
   apiKey: (env.VITE_GOOGLE_DRIVE_API_KEY as string | undefined) || '',
 
-  /** Optional: If all 5 subject folders live inside one single master Drive folder, paste its ID here */
+  /** Optional: If all 5 subject folders live inside one single master Drive folder */
   rootFolderId: (env.VITE_DRIVE_ROOT_FOLDER_ID as string | undefined) || '',
 
-  /** Individual Google Drive Folder IDs for each subject (from https://drive.google.com/drive/folders/<ID>) */
+  /**
+   * Public Google Drive Folder IDs for each subject ("Anyone with the link can view").
+   * Env vars take precedence if provided.
+   */
   subjectFolderIds: {
-    fr: (env.VITE_DRIVE_FOLDER_FR as string | undefined) || '',
-    audit: (env.VITE_DRIVE_FOLDER_AUDIT as string | undefined) || '',
-    afm: (env.VITE_DRIVE_FOLDER_AFM as string | undefined) || '',
-    idt: (env.VITE_DRIVE_FOLDER_IDT as string | undefined) || '',
-    dt: (env.VITE_DRIVE_FOLDER_DT as string | undefined) || '',
+    fr: (env.VITE_DRIVE_FOLDER_FR as string | undefined) || '1scHG_sh9f5FM80eiBAAvn9vNFMjgn-04',
+    afm: (env.VITE_DRIVE_FOLDER_AFM as string | undefined) || '1zx08ZNsB4S_FV9slYEiT2HjZSy5v8HMt',
+    audit:
+      (env.VITE_DRIVE_FOLDER_AUDIT as string | undefined) || '1F3K3qtlu0-HI8VXn3J34QMeiKW7lB9s0',
+    dt: (env.VITE_DRIVE_FOLDER_DT as string | undefined) || '1eSWrHuAP-Rdgn6Ids81HNarncsZXb80l',
+    idt: (env.VITE_DRIVE_FOLDER_IDT as string | undefined) || '1cZKL0uXtZThb0-9jatPKXVD6o0WBOaY9',
   } as Record<SubjectId, string>,
 
   /**
@@ -45,7 +52,8 @@ export const DRIVE_CONFIG = {
    * Optional Free Google Apps Script Web App URL (/exec) for saving future
    * student descriptive PDF/text submissions into your private Google Drive folder.
    */
-  descriptiveUploadScriptUrl: (env.VITE_DESCRIPTIVE_UPLOAD_SCRIPT_URL as string | undefined) || '',
+  descriptiveUploadScriptUrl:
+    (env.VITE_DESCRIPTIVE_UPLOAD_SCRIPT_URL as string | undefined) || '',
 
   /** GitHub Pages repository reference */
   githubRepoName: 'cafinalrevisionpage',
@@ -58,7 +66,8 @@ export const SUBJECTS: SubjectMeta[] = [
     name: 'Financial Reporting',
     shortName: 'FR',
     driveFolderMatchNames: ['financial reporting', 'fr', 'paper 1'],
-    description: 'Ind AS recognition, measurement, consolidation, business combinations, and financial instruments.',
+    description:
+      'Ind AS recognition, measurement, consolidation, business combinations, and financial instruments.',
     defaultReadiness: 'complete',
   },
   {
@@ -67,7 +76,8 @@ export const SUBJECTS: SubjectMeta[] = [
     name: 'Advanced Financial Management',
     shortName: 'AFM',
     driveFolderMatchNames: ['advanced financial management', 'afm', 'sfm', 'paper 2'],
-    description: 'Derivatives valuation, foreign exchange risk hedging, portfolio theory, and corporate restructuring.',
+    description:
+      'Derivatives valuation, foreign exchange risk hedging, portfolio theory, and corporate restructuring.',
     defaultReadiness: 'complete',
   },
   {
@@ -76,7 +86,8 @@ export const SUBJECTS: SubjectMeta[] = [
     name: 'Advanced Audit',
     shortName: 'Audit',
     driveFolderMatchNames: ['advanced audit', 'advanced auditing', 'audit', 'paper 3'],
-    description: 'Standards on Auditing (SA), SQC 1 quality management, audit reporting, CARO 2020, and ethics.',
+    description:
+      'Standards on Auditing (SA), SQC 1 quality management, audit reporting, CARO 2020, and ethics.',
     defaultReadiness: 'complete',
   },
   {
@@ -85,8 +96,9 @@ export const SUBJECTS: SubjectMeta[] = [
     name: 'Direct Taxes',
     shortName: 'DT',
     driveFolderMatchNames: ['direct taxes', 'direct tax', 'dt', 'paper 4'],
-    description: 'Income-tax Act provisions, international taxation, transfer pricing, and appellate remedies.',
-    defaultReadiness: 'upcoming',
+    description:
+      'Income-tax Act provisions, international taxation, transfer pricing, and appellate remedies.',
+    defaultReadiness: 'in_progress',
   },
   {
     id: 'idt',
@@ -94,8 +106,9 @@ export const SUBJECTS: SubjectMeta[] = [
     name: 'Indirect Taxes',
     shortName: 'IDT',
     driveFolderMatchNames: ['indirect taxes', 'indirect tax', 'idt', 'gst', 'paper 5'],
-    description: 'CGST, IGST levy & supply, input tax credit, exemptions, customs valuation, and FTP.',
-    defaultReadiness: 'in_progress',
+    description:
+      'CGST, IGST levy & supply, input tax credit, exemptions, customs valuation, and FTP.',
+    defaultReadiness: 'complete',
   },
 ];
 

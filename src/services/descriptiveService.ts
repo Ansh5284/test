@@ -31,7 +31,8 @@ export async function submitDescriptiveAnswer(params: {
   typedAnswer?: string;
   pdfFile?: File | null;
 }): Promise<DescriptiveSubmission> {
-  const endpoint = DRIVE_CONFIG.descriptiveUploadScriptUrl.trim() || DRIVE_CONFIG.feedbackScriptUrl.trim();
+  const endpoint =
+    DRIVE_CONFIG.descriptiveUploadScriptUrl.trim() || DRIVE_CONFIG.feedbackScriptUrl.trim();
   const submittedAt = new Date().toISOString();
   const cleanName = params.studentName.trim() || 'Anonymous Candidate';
 
@@ -43,21 +44,48 @@ export async function submitDescriptiveAnswer(params: {
   let status: DescriptiveSubmission['status'] = 'queued_for_evaluation';
 
   if (endpoint) {
-    await fetch(endpoint, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        type: 'descriptive_submission',
-        questionId: params.question.id,
-        subjectName: params.question.subjectName,
-        studentName: cleanName,
-        mode: params.mode,
-        typedAnswer: params.typedAnswer?.trim(),
-        fileName: params.pdfFile?.name,
-        fileBase64,
-      }),
-    });
+    let res: Response;
+    try {
+      res = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          type: 'descriptive_submission',
+          questionId: params.question.id,
+          subjectName: params.question.subjectName,
+          studentName: cleanName,
+          mode: params.mode,
+          typedAnswer: params.typedAnswer?.trim(),
+          fileName: params.pdfFile?.name,
+          fileBase64,
+        }),
+      });
+    } catch {
+      throw new Error(
+        'Could not reach the Google Apps Script endpoint. Verify your Web App is deployed with "Execute as: Me" and "Who has access: Anyone".',
+      );
+    }
+
+    if (res.status === 401 || res.status === 403) {
+      throw new Error(
+        'Apps Script rejected the upload (401/403). Update Apps Script deployment access to "Anyone".',
+      );
+    }
+
+    const rawText = await res.text().catch(() => '');
+    let parsed: { ok?: boolean; error?: string } | null = null;
+    try {
+      parsed = JSON.parse(rawText) as { ok?: boolean; error?: string };
+    } catch {
+      parsed = null;
+    }
+
+    if (parsed && parsed.ok === false) {
+      throw new Error(parsed.error || 'Apps Script could not save the descriptive submission.');
+    }
+
     status = 'saved_to_drive';
   }
 

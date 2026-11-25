@@ -23,23 +23,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('CA Final Vault runtime error:', error, info.componentStack);
+    console.error('CA Final Revision Hub runtime error:', error, info.componentStack);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#F9F8F4] text-[#171614] flex items-center justify-center p-6">
-          <div className="max-w-lg w-full bg-white border border-[#E5E2DA] rounded-xl p-8 space-y-4">
-            <p className="text-xs font-mono text-[#9A3412]">Runtime Recovery</p>
-            <h1 className="font-serif text-2xl font-semibold text-[#171614]">
-              Unable to render the revision archive
+        <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex items-center justify-center p-6">
+          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-2xl p-8 space-y-4 shadow-xs">
+            <p className="text-xs font-mono font-medium text-red-600">Runtime Recovery</p>
+            <h1 className="text-xl font-bold text-slate-900">
+              Unable to render the revision hub
             </h1>
-            <p className="text-sm text-[#57534E] leading-relaxed">{this.state.errorMessage}</p>
+            <p className="text-sm text-slate-600 leading-relaxed">{this.state.errorMessage}</p>
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="px-4 py-2 text-xs font-medium text-white bg-[#1D3B73] rounded-md hover:bg-[#152C57] transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-white bg-[#2563EB] rounded-lg hover:bg-[#1D4ED8] transition-colors"
             >
               Reload Page
             </button>
