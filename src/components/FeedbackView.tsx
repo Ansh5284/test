@@ -258,22 +258,6 @@ export function FeedbackView() {
 
         {/* Right Side: Privacy Guarantee & Session Receipts */}
         <aside className="lg:col-span-4 space-y-5">
-          <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-3">
-            <h2 className="text-base font-bold text-slate-900">Private Sheet Architecture</h2>
-            <p className="text-xs leading-relaxed text-slate-600">
-              Student views are written via a free Google Apps Script Web App deployed directly on
-              your private Google Sheet. Your Sheet stays set to{' '}
-              <strong className="text-slate-900">Restricted (Only you)</strong>—no visitor can read
-              other responses or discover the spreadsheet link.
-            </p>
-            <p className="text-xs leading-relaxed text-slate-600">
-              Ensure Apps Script is deployed as <strong className="text-slate-900">Web app</strong>{' '}
-              with <strong className="text-slate-900">Execute as: Me</strong> and{' '}
-              <strong className="text-slate-900">Who has access: Anyone</strong>. Script source is
-              at <span className="font-mono text-slate-800">docs/google-apps-script-feedback.gs</span>.
-            </p>
-          </div>
-
           {recentSubmissions.length > 0 && (
             <div
               aria-live="polite"
